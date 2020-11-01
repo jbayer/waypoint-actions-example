@@ -1,15 +1,14 @@
-name: 'deploy'
-on: push
-
+name: waypoint-actions
+on: [push]
 jobs:
-  test:
+  waypoint:
     runs-on: ubuntu-latest
     steps:
-      - name: initialize
       - uses: actions/checkout@v2
       - uses: hashicorp/action-setup-waypoint@main
         with:
           version: '0.1.4'
+      - run: waypoint init
         env:
           WAYPOINT_SERVER_TOKEN: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
           WAYPOINT_SERVER_ADDR: waypoint.iamjambay.com:9701
