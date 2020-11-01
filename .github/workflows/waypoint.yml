@@ -5,13 +5,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: initialize
       - uses: actions/checkout@v2
       - uses: hashicorp/action-setup-waypoint@main
         with:
           version: '0.1.4'
-      - env:
-        WAYPOINT_SERVER_TOKEN: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
-        WAYPOINT_SERVER_ADDR: waypoint.iamjambay.com:9701
-        WAYPOINT_SERVER_TLS: 1
-        WAYPOINT_SERVER_TLS_SKIP_VERIFY: 1
+        env:
+          WAYPOINT_SERVER_TOKEN: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
+          WAYPOINT_SERVER_ADDR: waypoint.iamjambay.com:9701
+          WAYPOINT_SERVER_TLS: 1
+          WAYPOINT_SERVER_TLS_SKIP_VERIFY: 1
       - run: waypoint init
