@@ -1,47 +1,35 @@
-name: Waypoint
-
-# Run this workflow every time a new commit pushed to your repository
+name: 'deploy'
 on: push
 
 jobs:
-  # Set the job key. The key is displayed as the job name
-  # when a job name is not provided
-  waypoint:
-    # Name the Job
-    name: deploy to waypoint
-    # Set the type of machine to run on
+  test:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - uses: hashicorp/action-waypoint
+      - uses: ./
         name: Setup
-          with:
-            version: '0.1.4'
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            waypoint_server_address: 'waypoint.iamjambay.com:9701'
-            waypoint_server_ui: 'https://waypoint.iamjambay.com:9702'
-            waypoint_server_token: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
-            workspace: default
-      - uses: hashicorp/action-waypoint
+        with:
+          version: '0.1.4'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          waypoint_server_address: 'waypoint.iamjambay.com:9701'
+          waypoint_server_ui: 'waypoint.iamjambay.com:9702'
+          waypoint_server_token: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
+      - uses: ./
         name: Build
         with:
           operation: build
           version: '0.1.4'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           workspace: default
-      - uses: hashicorp/action-waypoint
+      - uses: ./
         name: Deploy
         with:
           operation: deploy
           version: '0.1.4'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           workspace: default
-      - uses: hashicorp/action-waypoint
+      - uses: ./
         name: Release
         if: ${{ github.ref == 'refs/heads/main' }}
         with:
           operation: release
           version: '0.1.4'
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           workspace: default
