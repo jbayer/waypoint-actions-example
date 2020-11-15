@@ -7,7 +7,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: hashicorp/action-setup-waypoint@main
         with:
-          version: '0.1.4'
+          version: '0.1.5'
       - run: waypoint init
         env:
           WAYPOINT_SERVER_TOKEN: ${{ secrets.WAYPOINT_SERVER_TOKEN }}
